@@ -11,7 +11,7 @@ of the form
 ```
 track.mp3|set name
 ```
-For example, here is my `sets` file for _Yiddishbbuk_ (St Lawrence String Quartert + Osvaldo Golijov composer).
+For example, here is my `sets` file for _Yiddishbbuk_ (St Lawrence String Quartet + Osvaldo Golijov composer).
 
 ```
 01-Last_Round_-__I_Movido,_urgente.mp3|last round
