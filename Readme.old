@@ -1,0 +1,16 @@
+This branch includes a perl script and a shell script. They are largely
+archival.
+
+The perl script (from 2003) uses the directory structure. You have
+one directory of one-track songs, and one with sets, each in its own
+directory. We don't need a 'sets' file, but we do need a specific
+directory structure.
+
+The shell script is similar to the Python version, but it attempts to
+use only POSIX-standard commands, so it can run on telephones or other
+portable objects with a POSIX shell like busybox. Its fatal flaw is that
+many characters in a file name (&, ()s, ""s, spaces) are a pain to work
+around in the shell. On the pro-shell side, Python chokes when a name
+is somehow inconsistent with the UTF-8 standard, while the shell will
+faithfully copy whatever it gets. All of these problems may be common
+with file names generated via CDDB or from certain music providers.
