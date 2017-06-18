@@ -9,7 +9,7 @@ Building set lists
 In a directory with some multi-track portions, add a file named 'sets', where each line is
 of the form
 ```
-track.mp3|set this track is in
+track.mp3|set name
 ```
 For example, here is my sets file for _Yiddishbbuk (St Lawrence String Quartert + Osvaldo Golijov composer).
 
