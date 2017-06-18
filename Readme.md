@@ -60,9 +60,9 @@ Running it
 
 Once you have a `sets` file in every directory with a collection (meaning that many album
 directories may not need a `sets` file at all), go to the root of your collection and run
-
+```
 python make_playlist.py
-
+```
 and it will output `list.m3u`, with one track per line. This playlist should be ready to
 play into your favorite music player (sequentially, without the music player's less discerning shuffle feature).
 
