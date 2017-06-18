@@ -11,7 +11,7 @@ of the form
 ```
 track.mp3|set name
 ```
-For example, here is my sets file for _Yiddishbbuk (St Lawrence String Quartert + Osvaldo Golijov composer).
+For example, here is my sets file for _Yiddishbbuk_ (St Lawrence String Quartert + Osvaldo Golijov composer).
 
 ```
 01-Last_Round_-__I_Movido,_urgente—Macho,_cool_and_dangerous.mp3|last round
@@ -29,16 +29,16 @@ For example, here is my sets file for _Yiddishbbuk (St Lawrence String Quartert 
 13-The_Dreams_and_Prayers_of_Isaac_the_Blind_IV._Postlude_-__Lento,_liberamente.mp3|dp
 ```
 
-The name can be anything (a, b, c or 1, 2, 3 are sufficient), just enough to uniquely identify the set within this file.
-Note that tracks 3-5 are unlabelled in the example, because those are a loose set of songs that it's OK to shuffle.
+The name can be anything—a, b, c or 1, 2, 3 are sufficient, just enough to uniquely identify the set within this file.
+Note that tracks 3-5 are unlabelled in the example, because those are a loose set of songs that are OK to shuffle.
 
-I generate the initial version via a simple shell function that I wrote:
+I generate the base set list via a simple shell function that I wrote:
 ```
 prep_list(){
     ls --color=none *3 | sed 's/$/|/' > sets
 }
 ```
-and then opening `sets` in a text editor.  
+and then open `sets` in a text editor to add set names. 
 
 
 You can also have the set list in a higher directory, with subdirectories:
@@ -53,7 +53,7 @@ You can also have the set list in a higher directory, with subdirectories:
 The script will prefix the path to the set list and use the full path for string
 comparisons, so begin the line with the bare directory name (not `./` or such).
 
-Sorry Dangermouse|Jemini fans, but tracks on the setlist can't have a pipe in the name.
+Sorry Kendrick Lamar fans, but tracks on the setlist can't have a pipe in the name.
 
 Running it
 =====
