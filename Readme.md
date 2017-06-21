@@ -2,12 +2,12 @@ Overview
 =====
 
 The intent of this script is to generate a shuffled track listing, while retaining
-multi-movement pieces as a unit. You write set lists, in a format intended to be
-easy to write, and then run the script to build a shuffled play list.
+multi-movement pieces as a unit. You write simple set lists
+and then run the script to build a shuffled play list.
 
 Here is a sample output from my music directory. Each line is a single filename for a
 single mp3 (or m4a or ogg), which is a common playlist format handled by most music
-players as a `.m3u` file. Three blocks of multi-track pieces are shuffled in with
+players as an `.m3u` file. Three blocks of multi-track pieces are shuffled in with
 everything else. 
 
 ```
@@ -37,7 +37,7 @@ various/Jobim_songbook/06_Antonio_Carlos_Jobim___Só_Danço_Samba.mp3
 
 To make this work, you will have to provide set lists indicating which pieces should hold
 together. Ludwig van Shuffle does this via plain text files, because directory structures
-and the TSST tag are not as reliable. You should be able to spend a few seconds setting up
+and the ID3v2 TSST tag are not as reliable. You should be able to spend a few seconds setting up
 a set list for an album, then never think about it again.
 
 Once your set lists are in place, just run `python make_plist.py > list.m3u` to generate a playlist.
@@ -73,7 +73,7 @@ For example, here is my `sets` file for _Yiddishbbuk_ (St Lawrence String Quarte
 The name can be anything—a, b, c or 1, 2, 3 are sufficient, just enough to uniquely identify the set within this file.
 Note that tracks 3-5 are unlabelled in the example, because those are a loose set of songs that are OK to shuffle.
 
-You can also have the set list in a higher directory, with subdirectories:
+You can also have the `sets` file in a higher directory, with subdirectories:
 
 ```
 2007-Oceana/08-Tenebrae_-__I_First_Movement.mp3|tenebrae
@@ -85,7 +85,7 @@ You can also have the set list in a higher directory, with subdirectories:
 The script will prefix the path to the set list and use the full path for string
 comparisons, so begin the line with the bare directory name (not `./` or such).
 
-Sorry Kendrick Lamar fans, but tracks on the setlist can't have a pipe in the name.
+Sorry Kendrick Lamar fans, but tracks in the `sets` file can't have a pipe in the name.
 
 The `sets` file starts with a directory listing with a pipe after each name, which is
 simple enough that there are many, may means of generating such a list from the command line.
@@ -112,14 +112,17 @@ directories may not need a `sets` file at all), go to the root of your collectio
 ```
 python make_playlist.py > list.m3u
 ```
-and it will output `list.m3u`, with one track per line. This playlist should be ready
+This playlist should be ready
 to load into your favorite music player (sequentially, without the music player's less
-discerning shuffle feature).  Typical music players look for a `.m3u` ending to the
+discerning shuffle feature).  Typical music players look for an `.m3u` ending to the
 file name.
 
-The script writes to STDOUT, so you have the option to write to any file name/location you
+The script writes to stdout, so you have the option to write to any file name/location you
 need, and to filter the output, such as modifying the path names to suit your music
 player's expectations or filtering out tracks by an artist you aren't in the mood for today.
 
 The playlist is generated from the directory you are running the script from, but
 you can also change the `music_directory` variable on the first line to a fixed location.
+
+The random number generator is seeded with the time, so you will get a newly-shuffled
+playlist on every run (as long as your runs are more than a second apart).
