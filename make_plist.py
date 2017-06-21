@@ -33,16 +33,15 @@ for t in sets:
         del tracks[tracks.index(t[0])]
 
 random.seed() #with time
-f=open("list.m3u","w")
 while len(tracks)>0:
     i=random.randint(0,len(tracks)+len(setlist)-1)
     if i < len(tracks):
         t=tracks[i]
-        f.write(t+"\n")
+        print(t)
         del tracks[i]
     else: #you drew a set. Write out its elements
         s=i-len(tracks)
         group=[tr[0] for tr in sets if tr[1]==setlist[s]]
         for i in group:
-            f.write(i+"\n")
+            print(i)
         del setlist[s]

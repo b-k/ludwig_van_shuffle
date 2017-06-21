@@ -40,7 +40,7 @@ together. Ludwig van Shuffle does this via plain text files, because directory s
 and the TSST tag are not as reliable. You should be able to spend a few seconds setting up
 a set list for an album, then never think about it again.
 
-Once your set lists are in place, just run `python make_plist.py` to generate a playlist.
+Once your set lists are in place, just run `python make_plist.py > list.m3u` to generate a playlist.
 
 
 
@@ -110,9 +110,16 @@ Running it
 Once you have a `sets` file in every directory with a collection (meaning that many album
 directories may not need a `sets` file at all), go to the root of your collection and run
 ```
-python make_playlist.py
+python make_playlist.py > list.m3u
 ```
-and it will output `list.m3u`, with one track per line. This playlist should be ready to
-load into your favorite music player (sequentially, without the music player's less discerning shuffle feature).
+and it will output `list.m3u`, with one track per line. This playlist should be ready
+to load into your favorite music player (sequentially, without the music player's less
+discerning shuffle feature).  Typical music players look for a `.m3u` ending to the
+file name.
 
-You can also change the `music_directory` variable on the first line to a fixed location.
+The script writes to STDOUT, so you have the option to write to any file name/location you
+need, and to filter the output, such as modifying the path names to suit your music
+player's expectations or filtering out tracks by an artist you aren't in the mood for today.
+
+The playlist is generated from the directory you are running the script from, but
+you can also change the `music_directory` variable on the first line to a fixed location.
