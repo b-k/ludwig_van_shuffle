@@ -7,7 +7,7 @@ def get_tracks():
   for root, subdirs, files in os.walk(music_directory):
     for i in files:
         name,e = os.path.splitext(i)
-        if e=='.mp3' or e=='.m4a' or e=='.ogg':
+        if e=='.mp3' or e=='.m4a' or e=='.ogg' or e=='.MP3' or e=='.M4A' or e=='.OGG':
           tracks.append(root+ '/'+ i)
   return tracks
 
@@ -18,7 +18,7 @@ def get_sets():
         if i=='sets':
             s=open(root+ '/'+ i, 'r');
             for line in s.readlines():
-                if line.split('|')[1] !="\n":
+                if len(line.split('|'))>1 and line.split('|')[1] !="\n":
                   sets.append(list((root+'/' + line.split('|')[0], root+'/' + line.split('|')[1])))
   return sets
 
