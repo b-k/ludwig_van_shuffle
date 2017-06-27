@@ -1,5 +1,4 @@
-Overview
-=====
+### Overview
 
 The intent of this script is to generate a shuffled track listing, while retaining
 multi-movement pieces as a unit. You write simple set lists
@@ -7,7 +6,7 @@ and then run the script to build a shuffled play list.
 
 Here is a sample output from my music directory. Each line is a single filename for a
 single mp3 (or m4a or ogg), which is a common playlist format handled by most music
-players as an `.m3u` file. Three blocks of multi-track pieces are shuffled in with
+players as an `.m3u` file. A quick skim shows three blocks of multi-track pieces shuffled in with
 everything else. 
 
 ```
@@ -44,8 +43,7 @@ Once your set lists are in place, just run `python make_plist.py > list.m3u` to 
 
 
 
-Building set lists
-=====
+### Building set lists
 
 In a directory with some multi-track portions, add a file named `sets`, where each line is
 of the form
@@ -85,10 +83,11 @@ You can also have the `sets` file in a higher directory, with subdirectories:
 The script will prefix the path to the set list and use the full path for string
 comparisons, so begin the line with the bare directory name (not `./` or such).
 
-Sorry Kendrick Lamar fans, but tracks in the `sets` file can't have a pipe in the name.
+* Sorry Kendrick Lamar fans, but tracks in the `sets` file can't have a pipe in the name.
 
-The `sets` file starts with a directory listing with a pipe after each name, which is
-simple enough that there are many, may means of generating such a list from the command line.
+#### Scripting it
+
+The `sets` file is simple enough that there are many, may means of preparing it from the command line.
 I generate the base set list via a simple shell function that I wrote:
 ```
 prep_list(){
@@ -104,8 +103,7 @@ cd /path/to/music; find . -type f -name '*mp3' | sed 's-^./--' | sed 's/$/|/' | 
 ```
 
 
-Running it
-=====
+### Running it
 
 Once you have a `sets` file in every directory with a collection (meaning that many album
 directories may not need a `sets` file at all), go to the root of your collection and run
@@ -117,12 +115,12 @@ to load into your favorite music player (sequentially, without the music player'
 discerning shuffle feature).  Typical music players look for an `.m3u` ending to the
 file name.
 
-The script writes to stdout, so you have the option to write to any file name/location you
+* The script writes to stdout, so you have the option to write to any file name/location you
 need, and to filter the output, such as modifying the path names to suit your music
 player's expectations or filtering out tracks by an artist you aren't in the mood for today.
 
-The playlist is generated from the directory you are running the script from, but
+* The playlist is generated from the directory you are running the script from, but
 you can also change the `music_directory` variable on the first line to a fixed location.
 
-The random number generator is seeded with the time, so you will get a newly-shuffled
+* The random number generator is seeded with the time, so you will get a newly-shuffled
 playlist on every run (as long as your runs are more than a second apart).
