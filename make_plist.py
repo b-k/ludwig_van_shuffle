@@ -16,10 +16,11 @@ def get_sets():
   for root, subdirs, files in os.walk(music_directory):
     for i in files:
         if i=='sets':
-            s=open(root+ '/'+ i, 'r');
+            s=open(root+ '/'+ i, 'r')
             for line in s.readlines():
+                line=line.strip()
                 if len(line.split('|'))>1 and line.split('|')[1] !="\n":
-                  sets.append(list((root+'/' + line.split('|')[0], root+'/' + line.split('|')[1])))
+                  sets.append(list((os.path.join(root, line.split('|')[0]), os.path.join(root, line.split('|')[1]))))
   return sets
 
 tracks=get_tracks()
