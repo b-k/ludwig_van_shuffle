@@ -2,7 +2,8 @@
 
 The intent of this script is to generate a shuffled track listing, while retaining
 multi-movement pieces as a unit. You write simple set lists
-and then run the script to build a shuffled play list.
+and then run the script to build a shuffled play list. You can also add a list of weights,
+so your favorite tracks will be more likely to play.
 
 Here is a sample output from my music directory. Each line is a single filename for a
 single mp3 (or m4a or ogg), which is a common playlist format handled by most music
@@ -42,7 +43,6 @@ a set list for an album, then never think about it again.
 Once your set lists are in place, just run `python make_plist.py > list.m3u` to generate a playlist.
 
 
-
 ### Building set lists
 
 In a directory with some multi-track portions, add a file named `sets`, where each line is
@@ -80,23 +80,13 @@ You can also have the `sets` file in a higher directory, with subdirectories:
 2002-Yiddishbbuk/02-Last_Round_-__II_Lentissimo.mp3|last round
 ```
 
-The script will prefix the path to the set list and use the full path for string
+* The script will prefix the path to the set list and use the full path for string
 comparisons, so begin the line with the bare directory name (not `./` or such).
 
-* Sorry Kendrick Lamar fans, but tracks in the `sets` file can't have a pipe in the name.
+* The simplest may be to write a directory listing to the sets file via `ls > sets`,
+then open `sets` in a text editor to add set names. 
 
-#### Scripting it
-
-The `sets` file is simple enough that there are many, may means of preparing it from the command line.
-I generate the base set list via a simple shell function that I wrote:
-```
-prep_list(){
-    ls --color=none *3 | sed 's/$/|/' > sets
-}
-```
-and then I open `sets` in a text editor to add set names. 
-
-Or, generate a grand `sets` list for your entire collection via `find` and
+* Or, generate a grand `sets` list for your entire collection via `find` and
 a quick `sed` filter to remove the initial `./` and add a final `|`:
 ```
 cd /path/to/music; find . -type f -name '*mp3' | sed 's-^./--' | sed 's/$/|/' | sort > sets
@@ -115,7 +105,7 @@ to load into your favorite music player (sequentially, without the music player'
 discerning shuffle feature).  Typical music players look for an `.m3u` ending to the
 file name.
 
-* The script writes to stdout, so you have the option to write to any file name/location you
+* The script writes to stdout, so you have the option to write to any file name or location you
 need, and to filter the output, such as modifying the path names to suit your music
 player's expectations or filtering out tracks by an artist you aren't in the mood for today.
 
@@ -124,3 +114,43 @@ you can also change the `music_directory` variable on the first line to a fixed 
 
 * The random number generator is seeded with the time, so you will get a newly-shuffled
 playlist on every run (as long as your runs are more than a second apart).
+
+### Weights
+
+By default, all tracks are equally likely to be drawn---they each have a weight of one. You can
+build a score file to modify this. Each line is a pipe delimited list of the form
+```
+path/to/element|weight
+```
+where `element` is either a file or the name of a set, and `weight` is the new weight. For example, a
+weight of 2.1 makes the song slightly more than twice as likely to be drawn, and a weight of 0.5
+cuts the chance that a track is put on the playlist in half.
+
+Here is a sample score file, including one track to play with lower odds, some sets specified
+using the path and set names specified in the example above, and a file with no associated weight that will be left with the
+default weight of one.
+
+```
+Björk_Guðmundsdóttir/1995-post/05_Enjoy.mp3|.6
+2007-Oceana/tenebrae|2
+2007-Oceana/last round|1.7
+Ana_Tijoux/2009-1977/13-Avaricia.mp3|2
+Leadbelly/Where_did_you_sleep_last_night.mp3
+```
+
+* By default, the file is named `scores`, in the `music_directory`, but set it as you prefer
+at the top of the script. If the file is not found, then no weights are changed. This file is
+separate from the `sets` file(s) under the presumption that it will change as your preferences
+change, whereas Beethoven's fifth symphony will always have four movements.
+
+* Because a line with no pipe is ignored, you can generate a complete list of
+tracks and sets, then mark only those that you want to have a weight different from one.
+
+* As with the set lists, any paths are relative to the current directory or the `music_directory`
+you set at the top of the script, without any initial `./` or `/`.
+
+Once a track is put on the list, it will not appear again, no matter how much weight it had.
+If you set `list_length` at the top of the script to a number larger than the number of elements you
+have, every track will be put on the list exactly once, but
+higher-weighted tracks are likely to appear higher in the set list. If you want a favorite track to
+appear multiple times in a playlist, you can concatenate together a larger number of short lists.
