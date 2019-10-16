@@ -1,5 +1,5 @@
 music_directory="."
-list_length=400000 #Max number of items on the playlist (1 set=1 item).
+list_length=100 #Max number of items on the playlist (where 1 set==1 item).
 score_file=music_directory+ '/scores'
 
 import os,random
@@ -7,22 +7,23 @@ import os,random
 def get_a_set(sets, root, s):
     """Given a sets file s, append the elements to the sets list"""
     for line in s.readlines():
-        line=line.strip()
-        if len(line.split('|'))>1 and len(line.split('|')[1].strip())>0:
-          sets.append(list((os.path.join(root, line.split('|')[0]), os.path.join(root, line.split('|')[1]))))
+        ls=line.split('|')
+        if len(ls)>1 and len(ls[1].strip())>0:
+           sets.append([os.path.join(root, ls[0].strip()),
+                             os.path.join(root, ls[1].strip())])
 
 def get_tracks():
-  """Walk through the directory adding every track to the list, without regard to any set lists to be gathered later."""
-  tracks= []
-  sets = []
-  for root, subdirs, files in os.walk(music_directory):
-    for i in files:
+    """Walk through the directory adding every track to the list, without regard to any set lists to be gathered later."""
+    tracks= []
+    sets = []
+    for root, subdirs, files in os.walk(music_directory):
+      for i in files:
         name,e = os.path.splitext(i)
         if e=='.mp3' or e=='.m4a' or e=='.ogg' or e=='.MP3' or e=='.M4A' or e=='.OGG':
           tracks.append(root+ '/'+ i)
         if i=='sets':
           get_a_set(sets, root, open(root+ '/'+ i, 'r'))
-  return tracks, sets
+    return tracks, sets
 
 def get_scores(tracks, weights):
     try: s=open(score_file, 'r')
@@ -56,13 +57,13 @@ for t in sets:
         weights[tracks.index(t[0])]=0
 
 """The random draw uses a cumulative mass function (CMF), i.e., the running total weight beginning at the first cell."""
-cmf =weights.copy()
+cmf =list(weights)
 for i in range(1, len(weights)):
     cmf[i]+= cmf[i-1]
 
 random.seed() #with time
 for ctr in range(0, list_length):
-    if cmf[-1]==0: break
+    if cmf[-1]<=0: break
 
     r=random.random()*(cmf[-1])
     i=find_in_CMF(cmf, r)
@@ -74,5 +75,5 @@ for ctr in range(0, list_length):
         for j in group:
             print(j)
 
-    # Adjust the CMF to eliminate the element's weight
-    cmf[i:]=[ c-weights[i] for c in cmf[i:] ]
+    # Adjust the CMF from this element forward to eliminate the element's weight. Round away floating-point noise.
+    cmf[i:]=[ round(c-weights[i], 5) for c in cmf[i:] ]
