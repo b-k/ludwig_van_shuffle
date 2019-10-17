@@ -24,7 +24,7 @@ Remy_Zero/The_golden_hum/03-out_in.mp3
 various/SXSW_2014_Showcasing_Artists_Part1/Ingrid_Michaelson-Girls_Chase_Boys.mp3
 RuPaul/supermodel_of_the_world/03_Free_Your_Mind.mp3
 Nields/gotta_get_over_greta/05-i_know_what_kind_of_love_this_is.mp3
-Osvaldo_Golijov/2007-Oceana/08-Tenebrae_-__I_First_Movemen.mp3
+Osvaldo_Golijov/2007-Oceana/08-Tenebrae_-__I_First_Movement.mp3
 Osvaldo_Golijov/2007-Oceana/09-Tenebrae_-__II_Second_Movement.mp3
 Ana_Tijoux/2009-1977/13-Avaricia.mp3
 Leadbelly/Where_did_you_sleep_last_night.mp3
@@ -104,7 +104,7 @@ file name.
 
 ### Weights
 
-By default, all tracks are equally likely to be drawn---they each have a weight of one. You can
+By default, all tracks are equally likely to be drawn—they each have a weight of one. You can
 build a score file to modify this.
 The `scores` file is separate from the `sets` file(s) under the presumption that it will change
 as your preferences change, whereas Beethoven's fifth symphony will always have four movements.
@@ -124,11 +124,10 @@ Ana_Tijoux/2009-1977/13-Avaricia.mp3|.6
 Leadbelly/Where_did_you_sleep_last_night.mp3
 ```
 
-* The first two items are each now twice as likely to be drawn.
+* The first two items are each now twice as likely to be drawn. A weight of less than one lowers the chance
+  that an element is picked.
 * For sets, instead of a file name use the label for the set, as with `tenebrae` and `last round`
   as defined in the `sets` list above.
-* If a track has been overplayed and you want to give it a rest, you can give a weight less than
-  one. The Ana Tijoux track is 60% as likely to play as before.
 * The same rules apply as for the `sets` lists: lines with no pipe or a pipe followed by nothing are
   ignored, as in the last line of the above example, and paths are relative to the current
   directory or the `music_directory` you set at the top of the script, and should not have any initial `./`
